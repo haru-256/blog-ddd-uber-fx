@@ -81,9 +81,9 @@ func TestUserRepositoryImpl(t *testing.T) {
 	t.Run("GetById", func(t *testing.T) {
 		// Get an existing user ID from init data
 		var existingUserId *models.UserId
-		if len(usersDB) > 0 {
+		if len(repo.users) > 0 {
 			var err error
-			existingUserId, err = models.BuildUserId(usersDB[0].id)
+			existingUserId, err = models.BuildUserId(repo.users[0].id)
 			require.NoError(t, err)
 		}
 
