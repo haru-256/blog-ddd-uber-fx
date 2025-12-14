@@ -14,7 +14,8 @@ import (
 func TestUserRepositoryImpl(t *testing.T) {
 	// Initialize logger
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
-	repo := NewUserRepositoryImpl(logger)
+	db := NewDatabase()
+	repo := NewUserRepositoryImpl(logger, db)
 
 	ctx := context.Background()
 
@@ -204,7 +205,8 @@ func TestUserRepositoryImpl(t *testing.T) {
 
 func TestTaskRepositoryImpl(t *testing.T) {
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
-	repo := NewTaskRepositoryImpl(logger)
+	db := NewDatabase()
+	repo := NewTaskRepositoryImpl(logger, db)
 	ctx := context.Background()
 
 	t.Run("Create", func(t *testing.T) {

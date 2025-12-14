@@ -9,6 +9,12 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// RouteRegistrar はEchoへのルート登録を行うインターフェースです。
+// Group機能を使って一括登録するために使用します。
+type RouteRegistrar interface {
+	Register(e *echo.Echo)
+}
+
 type UserServiceHandler struct {
 	logger *slog.Logger
 	svc    service.UserService
@@ -19,6 +25,16 @@ func NewUserServiceHandler(logger *slog.Logger, svc service.UserService) *UserSe
 		logger: logger,
 		svc:    svc,
 	}
+}
+
+// Register はUserServiceのルートを登録します。
+func (h *UserServiceHandler) Register(e *echo.Echo) {
+	g := e.Group("/users")
+	g.POST("", h.CreateUser)
+	g.GET("", h.GetAllUsers)
+	g.GET("/:id", h.GetUserById)
+	g.PUT("/:id", h.UpdateUser)
+	g.DELETE("/:id", h.DeleteUser)
 }
 
 func (h *UserServiceHandler) CreateUser(c echo.Context) error {
@@ -97,6 +113,16 @@ func NewTaskServiceHandler(logger *slog.Logger, svc service.TaskService) *TaskSe
 		logger: logger,
 		svc:    svc,
 	}
+}
+
+// Register はTaskServiceのルートを登録します。
+func (h *TaskServiceHandler) Register(e *echo.Echo) {
+	g := e.Group("/tasks")
+	g.POST("", h.CreateTask)
+	g.GET("", h.GetAllTasks)
+	g.GET("/:id", h.GetTaskById)
+	g.PUT("/:id", h.UpdateTask)
+	g.DELETE("/:id", h.DeleteTask)
 }
 
 func (h *TaskServiceHandler) CreateTask(c echo.Context) error {

@@ -7,6 +7,11 @@ var (
 	tasksDB []*taskData
 )
 
+type Database struct {
+	usersDB []*userData
+	tasksDB []*taskData
+}
+
 type taskData struct {
 	id   string
 	name string
@@ -47,5 +52,12 @@ func init() {
 	usersDB = []*userData{
 		user1,
 		user2,
+	}
+}
+
+func NewDatabase() *Database {
+	return &Database{
+		usersDB: usersDB,
+		tasksDB: tasksDB,
 	}
 }

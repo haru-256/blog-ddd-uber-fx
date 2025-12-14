@@ -15,9 +15,22 @@ var Module = fx.Module(
 			server.NewServiceServerConfig,
 			fx.ParamTags(`name:"serverPort"`),
 		),
-		server.NewServiceServer,
-		server.NewUserServiceHandler,
-		server.NewTaskServiceHandler,
+		// サーバーの生成: routesグループを一括注入
+		fx.Annotate(
+			server.NewServiceServer,
+			fx.ParamTags("", "", `group:"routes"`), // cfg, logger, [routes]
+		),
+		// Handlerの登録: それぞれ "routes" グループの一員として登録
+		fx.Annotate(
+			server.NewUserServiceHandler,
+			fx.As(new(server.RouteRegistrar)),
+			fx.ResultTags(`group:"routes"`),
+		),
+		fx.Annotate(
+			server.NewTaskServiceHandler,
+			fx.As(new(server.RouteRegistrar)),
+			fx.ResultTags(`group:"routes"`),
+		),
 	),
 	// ライフサイクルフックを登録
 	fx.Invoke(server.RegisterLifecycleHooks),

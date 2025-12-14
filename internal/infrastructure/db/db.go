@@ -13,10 +13,10 @@ type UserRepositoryImpl struct {
 	users []*userData
 }
 
-func NewUserRepositoryImpl(logger *slog.Logger) *UserRepositoryImpl {
-	logger.Info("Init NewUserRepositoryImpl", slog.Int("num", len(usersDB)))
+func NewUserRepositoryImpl(logger *slog.Logger, db *Database) *UserRepositoryImpl {
+	logger.Info("Init NewUserRepositoryImpl", slog.Int("num", len(db.usersDB)))
 	return &UserRepositoryImpl{
-		users: usersDB,
+		users: db.usersDB,
 	}
 }
 
@@ -108,10 +108,10 @@ type TaskRepositoryImpl struct {
 	tasks []*taskData
 }
 
-func NewTaskRepositoryImpl(logger *slog.Logger) *TaskRepositoryImpl {
-	logger.Info("Init NewTaskRepositoryImpl", slog.Int("num", len(tasksDB)))
+func NewTaskRepositoryImpl(logger *slog.Logger, db *Database) *TaskRepositoryImpl {
+	logger.Info("Init NewTaskRepositoryImpl", slog.Int("num", len(db.tasksDB)))
 	return &TaskRepositoryImpl{
-		tasks: tasksDB,
+		tasks: db.tasksDB,
 	}
 }
 
