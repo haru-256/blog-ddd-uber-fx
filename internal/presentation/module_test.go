@@ -27,15 +27,17 @@ func TestModule(t *testing.T) {
 				fx.Annotated{Name: "logFormat", Target: "json"},
 				fx.Annotated{Name: "addSource", Target: true},
 			),
-			fx.Invoke(func(
-				s *server.ServiceServer,
-				uHandler *server.UserServiceHandler,
-				tHandler *server.TaskServiceHandler,
-			) {
-				assert.NotNil(t, s)
-				assert.NotNil(t, uHandler)
-				assert.NotNil(t, tHandler)
-			}),
+			// Invokeで検証
+			fx.Invoke(fx.Annotate(
+				func(
+					s *server.ServiceServer,
+					routes []server.RouteRegistrar,
+				) {
+					assert.NotNil(t, s)
+					assert.Len(t, routes, 2)
+				},
+				fx.ParamTags("", `group:"routes"`),
+			)),
 		)
 		app.RequireStart().RequireStop()
 	})

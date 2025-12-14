@@ -2,10 +2,10 @@ package db
 
 import "github.com/google/uuid"
 
-var (
+type Database struct {
 	usersDB []*userData
 	tasksDB []*taskData
-)
+}
 
 type taskData struct {
 	id   string
@@ -18,7 +18,7 @@ type userData struct {
 	tasks []*taskData
 }
 
-func init() {
+func NewDatabase() *Database {
 	task1 := &taskData{
 		id:   uuid.NewString(),
 		name: "task1",
@@ -40,12 +40,16 @@ func init() {
 		name:  "user2",
 		tasks: []*taskData{},
 	}
-	tasksDB = []*taskData{
+	tasksDB := []*taskData{
 		task1,
 		task2,
 	}
-	usersDB = []*userData{
+	usersDB := []*userData{
 		user1,
 		user2,
+	}
+	return &Database{
+		usersDB: usersDB,
+		tasksDB: tasksDB,
 	}
 }

@@ -14,7 +14,8 @@ import (
 func TestUserRepositoryImpl(t *testing.T) {
 	// Initialize logger
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
-	repo := NewUserRepositoryImpl(logger)
+	db := NewDatabase()
+	repo := NewUserRepositoryImpl(logger, db)
 
 	ctx := context.Background()
 
@@ -80,9 +81,9 @@ func TestUserRepositoryImpl(t *testing.T) {
 	t.Run("GetById", func(t *testing.T) {
 		// Get an existing user ID from init data
 		var existingUserId *models.UserId
-		if len(usersDB) > 0 {
+		if len(repo.users) > 0 {
 			var err error
-			existingUserId, err = models.BuildUserId(usersDB[0].id)
+			existingUserId, err = models.BuildUserId(repo.users[0].id)
 			require.NoError(t, err)
 		}
 
@@ -204,7 +205,8 @@ func TestUserRepositoryImpl(t *testing.T) {
 
 func TestTaskRepositoryImpl(t *testing.T) {
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
-	repo := NewTaskRepositoryImpl(logger)
+	db := NewDatabase()
+	repo := NewTaskRepositoryImpl(logger, db)
 	ctx := context.Background()
 
 	t.Run("Create", func(t *testing.T) {

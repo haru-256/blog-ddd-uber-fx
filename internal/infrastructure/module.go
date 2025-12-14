@@ -23,4 +23,9 @@ var Module = fx.Module(
 			fx.As(new(repositories.TaskRepository)),
 		),
 	),
+	// Privateにすることで他のモジュールからは見えない
+	fx.Provide(
+		db.NewDatabase,
+		fx.Private,
+	),
 )

@@ -34,8 +34,7 @@ type ServiceServer struct {
 func NewServiceServer(
 	cfg *ServiceServerConfig,
 	logger *slog.Logger,
-	userHandler *UserServiceHandler,
-	taskHandler *TaskServiceHandler,
+	routes []RouteRegistrar,
 ) *ServiceServer {
 	e := echo.New()
 
@@ -91,21 +90,11 @@ func NewServiceServer(
 		})
 	})
 
-	// 2. User Service Endpoints
-	users := e.Group("/users")
-	users.POST("", userHandler.CreateUser)
-	users.GET("", userHandler.GetAllUsers)
-	users.GET("/:id", userHandler.GetUserById)
-	users.PUT("/:id", userHandler.UpdateUser)
-	users.DELETE("/:id", userHandler.DeleteUser)
-
-	// 3. Task Service Endpoints
-	tasks := e.Group("/tasks")
-	tasks.POST("", taskHandler.CreateTask)
-	tasks.GET("", taskHandler.GetAllTasks)
-	tasks.GET("/:id", taskHandler.GetTaskById)
-	tasks.PUT("/:id", taskHandler.UpdateTask)
-	tasks.DELETE("/:id", taskHandler.DeleteTask)
+	// 2. Group機能を使って集めたハンドラーを一括登録
+	// ここをループにするだけで、新しいHandlerが増えてもコード修正が不要になる
+	for _, route := range routes {
+		route.Register(e)
+	}
 
 	return &ServiceServer{
 		logger: logger,
