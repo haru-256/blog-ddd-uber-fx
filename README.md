@@ -1,6 +1,6 @@
-# DDDにおけるuber-fxによるDIの活用
+# 【Go】uber-fxを使ったDDDのDI実践ガイド：複雑な依存関係をシンプルに管理する
 
-「DDDにおけるuber-fxによるDIの活用」記事のサンプルコードを置く場所です。
+[【Go】uber-fxを使ったDDDのDI実践ガイド：複雑な依存関係をシンプルに管理する](https://zenn.dev/haru256/articles/733def36a7b94f) という記事のサンプルコードです。
 
 ## ディレクトリ構造
 
