@@ -53,3 +53,49 @@ graph TD
     RepoImpl -->|Persists| Model
     RepoImpl -->|Accesses| DB
 ```
+
+## 実行方法
+
+### 必要な環境
+
+- Go 1.25.5以上
+- [mise](https://mise.jdx.dev/)（推奨、バージョン管理用）
+
+### セットアップ
+
+初回セットアップ時は、以下のコマンドで依存関係をインストールします：
+
+```bash
+make install
+```
+
+または、手動で実行する場合：
+
+```bash
+mise install  # miseを使用している場合
+go mod tidy
+```
+
+### サーバーの起動
+
+サーバーを起動するには、以下のいずれかのコマンドを実行します：
+
+```bash
+make run
+```
+
+または、直接Goコマンドで実行：
+
+```bash
+go run ./cmd/server/main.go
+```
+
+サーバーはデフォルトで `http://localhost:8080` で起動します。
+
+### その他のコマンド
+
+- **テストの実行**: `make test`
+- **コードフォーマット**: `make fmt`
+- **リント**: `make lint`
+- **モック生成**: `make generate-mocks`
+- **ヘルプ表示**: `make help`
